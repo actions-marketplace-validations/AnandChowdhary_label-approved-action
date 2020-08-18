@@ -1,20 +1,52 @@
-# 🎬 GitHub Actions Starter
+# 🏷️🎬 Label Approved Action
 
-GitHub Actions starter for TypeScript with automated releases
+GitHub Action to automatically label approved pull requests
 
-[![Build CI](https://github.com/koj-co/action.ts/workflows/Build%20CI/badge.svg)](https://github.com/koj-co/action.ts/actions?query=workflow%3A%22Build+CI%22)
-[![Test CI](https://github.com/koj-co/action.ts/workflows/Test%20CI/badge.svg)](https://github.com/koj-co/action.ts/actions?query=workflow%3A%22Test+CI%22)
-[![Release CI](https://github.com/koj-co/action.ts/workflows/Release%20CI/badge.svg)](https://github.com/koj-co/action.ts/actions?query=workflow%3A%22Release+CI%22)
-[![Node CI](https://github.com/koj-co/action.ts/workflows/Node%20CI/badge.svg)](https://github.com/koj-co/action.ts/actions?query=workflow%3A%22Node+CI%22)
+[![Build CI](https://github.com/koj-co/label-approved-action/workflows/Build%20CI/badge.svg)](https://github.com/koj-co/label-approved-action/actions?query=workflow%3A%22Build+CI%22)
+[![Test CI](https://github.com/koj-co/label-approved-action/workflows/Test%20CI/badge.svg)](https://github.com/koj-co/label-approved-action/actions?query=workflow%3A%22Test+CI%22)
+[![Release CI](https://github.com/koj-co/label-approved-action/workflows/Release%20CI/badge.svg)](https://github.com/koj-co/label-approved-action/actions?query=workflow%3A%22Release+CI%22)
+[![Node CI](https://github.com/koj-co/label-approved-action/workflows/Node%20CI/badge.svg)](https://github.com/koj-co/label-approved-action/actions?query=workflow%3A%22Node+CI%22)
 
-## ⭐ Features
+## ⚙️ Usage
 
-- Write source in TypeScript
-- Auto-publish compiled code to `dist/`
-- Semantic Release to GitHub and npm
-- Includes Actions Core and Octokit
+### Inputs
 
-[**Create a repository using this template →**](https://github.com/koj-co/action.ts/generate)
+#### `labels`
+
+Comma-separated list of labels to add on the approved pull request, default to `approved`
+
+#### `approvals`
+
+List of labels to add on the approved pull request, default to `1`
+
+### Environment variables
+
+#### `GITHUB_TOKEN` (required)
+
+GitHub token to add labels to pull requests: `GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}`
+
+### Example
+
+```yaml
+name: Label PRs
+on:
+  pull_request_review:
+    types:
+      - submitted
+      - edited
+      - dismissed
+jobs:
+  automerge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Label approved PRs
+        uses: koj-co/label-approved-action@master
+        with:
+          label: "approved"
+          approvals: 2
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+```
 
 ## 📄 License
 
