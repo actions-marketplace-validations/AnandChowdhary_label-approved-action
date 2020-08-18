@@ -1,14 +1,18 @@
-name: "Action.ts"
-description: "GitHub Actions starter for TypeScript with automated releases"
+name: "label-approved-action"
+description: "GitHub Action to label approved pull requests"
 author: "Koj <https://github.com/koj.co>"
 inputs:
-  milliseconds:
+  labels:
     required: true
-    description: "Number of milliseconds to wait"
-    default: "1000"
+    description: "List of labels to add"
+    default: "approved"
+  approvals:
+    required: false
+    description: "Number of approvals required"
+    default: 1
 runs:
   using: "node12"
   main: "dist/index.js"
 branding:
-  icon: "umbrella"
+  icon: "tag"
   color: "purple"

@@ -1,5 +1,7 @@
-import { getInput, debug, setFailed, setOutput } from "@actions/core";
-import { getOctokit } from "@actions/github";
+import { getInput, setFailed } from "@actions/core";
+import { context, getOctokit } from "@actions/github";
+import { EventPayloads } from "@octokit/webhooks";
+import { defaultValue, shouldMerge } from "./util";
 
 const token =
   getInput("token") || process.env.GH_PAT || process.env.GITHUB_TOKEN;
@@ -8,18 +10,36 @@ export const run = async () => {
   if (!token) throw new Error("GitHub token not found");
   const octokit = getOctokit(token);
 
-  const ms: string = getInput("milliseconds");
-  debug(`Waiting ${ms} milliseconds ...`);
+  /**
+   * This action will only work on `pull_request` events
+   */
+  if (!context.payload.pull_request)
+    return console.log("No pull request found");
 
-  debug(new Date().toTimeString());
-  await wait(parseInt(ms, 10));
-  debug(new Date().toTimeString());
+  const pullRequest = (context as any).payload
+    .pull_request as EventPayloads.WebhookPayloadPullRequestPullRequest;
 
-  setOutput("time", new Date().toTimeString());
-};
-
-export const wait = (milliseconds: number) => {
-  return new Promise((resolve) => setTimeout(() => resolve(), milliseconds));
+  /**
+   * Pull request has been merged
+   */
+  if (
+    pullRequest.merged &&
+    shouldMerge(pullRequest.base.ref, getInput("branches"))
+  ) {
+    try {
+      if (
+        !(getInput("branches") || defaultValue)
+          .split(",")
+          .map((branch) => branch.trim())
+          .includes(pullRequest.base.ref)
+      )
+        await octokit.git.deleteRef({
+          owner: context.repo.owner,
+          repo: context.repo.repo,
+          ref: pullRequest.base.ref,
+        });
+    } catch (error) {}
+  }
 };
 
 run()
