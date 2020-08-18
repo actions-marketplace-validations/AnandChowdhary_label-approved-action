@@ -1,7 +1,7 @@
 {
-  "name": "github-actions-starter",
-  "version": "1.0.2",
-  "description": "Starter for GitHub Actions with TypeScript and automated releases",
+  "name": "label-approved-action",
+  "version": "0.0.0",
+  "description": "GitHub Action to label approved pull requests",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -10,9 +10,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/koj-co/action.ts.git"
+    "url": "git+https://github.com/koj-co/label-approved-action.git"
   },
   "keywords": [
+    "label",
     "github",
     "github actions",
     "nodejs",
@@ -22,9 +23,9 @@
   "author": "Anand Chowdhary <mail@anandchowdhary.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/koj-co/action.ts/issues"
+    "url": "https://github.com/koj-co/label-approved-action/issues"
   },
-  "homepage": "https://github.com/koj-co/action.ts#readme",
+  "homepage": "https://github.com/koj-co/label-approved-action#readme",
   "devDependencies": {
     "@semantic-release/git": "^9.0.0",
     "@types/jest": "^26.0.10",
@@ -37,7 +38,8 @@
   },
   "dependencies": {
     "@actions/core": "^1.2.4",
-    "@actions/github": "^4.0.0"
+    "@actions/github": "^4.0.0",
+    "@octokit/webhooks": "^7.11.0"
   },
   "jest": {
     "roots": [
