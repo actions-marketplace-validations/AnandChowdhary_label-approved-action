@@ -1,6 +1,6 @@
 {
   "name": "label-approved-action",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "GitHub Action to label approved pull requests",
   "main": "dist/index.js",
   "scripts": {
