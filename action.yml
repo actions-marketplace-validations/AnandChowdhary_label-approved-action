@@ -3,7 +3,7 @@ description: "GitHub Action to label approved pull requests"
 author: "Koj <https://github.com/koj.co>"
 inputs:
   labels:
-    required: true
+    required: false
     description: "List of labels to add"
     default: "approved"
   approvals:
