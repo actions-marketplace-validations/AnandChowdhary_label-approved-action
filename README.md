@@ -42,7 +42,7 @@ jobs:
       - name: Label approved PRs
         uses: koj-co/label-approved-action@master
         with:
-          label: "approved"
+          labels: "approved"
           approvals: 2
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
